@@ -7,9 +7,9 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { UserEntity } from '../../databases/entities';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SwipeInput } from './inputs/swipe.input';
+import { SwipeResponse } from './responses/swipe.response';
 import { SwipeService } from './swipe.service';
 
 @Controller('swipe')
@@ -31,7 +31,7 @@ export class SwipeController {
     @Req() req: any,
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
-  ): Promise<{ swipeList: UserEntity[]; total: number }> {
+  ): Promise<SwipeResponse> {
     const result = await this.swipeService.getSwipeList(
       req.user?.id,
       page,

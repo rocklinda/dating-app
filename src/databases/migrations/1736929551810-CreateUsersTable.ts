@@ -54,6 +54,11 @@ export class CreateUsersTable1736929551810 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'upgrade_at',
+            type: 'timestamp',
+            isNullable: true,
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',

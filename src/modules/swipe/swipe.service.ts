@@ -26,6 +26,7 @@ import {
 } from '../../databases/entities';
 import { UserService } from '../user/user.service';
 import { SwipeInput } from './inputs/swipe.input';
+import { SwipeResponse } from './responses/swipe.response';
 
 @Injectable()
 export class SwipeService {
@@ -147,7 +148,7 @@ export class SwipeService {
     userId: string,
     page: number = 1,
     limit: number = 10,
-  ): Promise<{ swipeList: UserEntity[]; total: number }> {
+  ): Promise<SwipeResponse> {
     const user = await this.userService.findOneByAttribute({
       where: { id: userId },
     });
@@ -182,9 +183,14 @@ export class SwipeService {
       skip: (page - 1) * limit,
     });
 
+    const totalPage = Math.ceil(total / limit);
+
     return {
       swipeList,
+      page,
+      limit,
       total,
+      totalPage,
     };
   }
 }

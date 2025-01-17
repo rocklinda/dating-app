@@ -59,6 +59,10 @@ export class UserEntity extends BaseEntity {
   lastSwipeDate?: Date;
 
   @Field(() => Date)
+  @Column({ name: 'upgrade_at' })
+  upgradeAt?: Date;
+
+  @Field(() => Date)
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

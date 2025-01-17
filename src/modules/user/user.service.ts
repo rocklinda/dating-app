@@ -45,6 +45,7 @@ export class UserService {
 
     user.accountType = AccountTypeEnum.PREMIUM;
     user.phone = phone;
+    user.upgradeAt = new Date();
 
     return await this.userRepository.save(user);
   }
