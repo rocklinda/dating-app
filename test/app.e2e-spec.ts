@@ -1,7 +1,17 @@
-import { INestApplication } from '@nestjs/common';
+import {
+  BadRequestException,
+  INestApplication,
+  NotFoundException,
+} from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { DataSource } from 'typeorm';
+import { AccountTypeEnum } from '../src/common/enums';
+import { UserEntity } from '../src/databases/entities';
+import { JwtAuthGuard } from '../src/modules/auth/guards/jwt-auth.guard';
+import { UserPremiumInput } from '../src/modules/user/inputs/user-premium.input';
+import { UserController } from '../src/modules/user/user.controller';
+import { UserService } from '../src/modules/user/user.service';
 import { AppModule } from './../src/app.module';
 
 describe('AuthController (e2e)', () => {
@@ -115,6 +125,89 @@ describe('AuthController (e2e)', () => {
         .expect((res) => {
           expect(res.body.message).toBe('Login failed, invalid passowrd');
         });
+    });
+  });
+});
+
+describe('UserController (e2e)', () => {
+  let userController: UserController;
+  let userService: UserService;
+
+  const mockUserService = {
+    upgradeToPremium: jest.fn(),
+  };
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [UserController],
+      providers: [
+        {
+          provide: UserService,
+          useValue: mockUserService,
+        },
+      ],
+    })
+      .overrideGuard(JwtAuthGuard) // Mock JwtAuthGuard to bypass authentication
+      .useValue({
+        canActivate: () => true, // Make the guard always pass
+      })
+      .compile();
+
+    userController = module.get<UserController>(UserController);
+    userService = module.get<UserService>(UserService);
+  });
+
+  describe('upgradeToPremium', () => {
+    it('should throw NotFoundException if user is not found', async () => {
+      const userPremiumInput: UserPremiumInput = { phone: '12345' };
+      mockUserService.upgradeToPremium.mockRejectedValue(
+        new NotFoundException('User not found'),
+      );
+
+      await expect(
+        userController.upgradeToPremium(
+          { user: { id: '1' } },
+          userPremiumInput,
+        ),
+      ).rejects.toThrowError(NotFoundException);
+    });
+
+    it('should throw BadRequestException if user is already premium', async () => {
+      const userPremiumInput: UserPremiumInput = { phone: '12345' };
+      mockUserService.upgradeToPremium.mockRejectedValue(
+        new BadRequestException('User is already a premium member'),
+      );
+
+      await expect(
+        userController.upgradeToPremium(
+          { user: { id: '1' } },
+          userPremiumInput,
+        ),
+      ).rejects.toThrowError(BadRequestException);
+    });
+
+    it('should successfully upgrade user to premium', async () => {
+      const userPremiumInput: UserPremiumInput = { phone: '12345' };
+      const user = {
+        id: '1',
+        accountType: AccountTypeEnum.FREE,
+        phone: '',
+        upgradeAt: null,
+      } as UserEntity;
+      const upgradedUser = {
+        ...user,
+        accountType: AccountTypeEnum.PREMIUM,
+        phone: '12345',
+        upgradeAt: new Date(),
+      };
+
+      mockUserService.upgradeToPremium.mockResolvedValue(upgradedUser);
+
+      const result = await userController.upgradeToPremium(
+        { user: { id: '1' } },
+        userPremiumInput,
+      );
+      expect(result).toEqual(upgradedUser);
     });
   });
 });
