@@ -24,7 +24,7 @@ The project is divided into the following modules:
 Handles user authentication using JWT.
 
 2. User Module
-Manages user data and account upgrades (standard to premium).
+Manages user data and account upgrades (free to premium).
 
 3. Swipe Module
 Handles user swipe activities (like/pass) and daily swipe limits.
@@ -103,6 +103,52 @@ npm run test
 To run the end-to-end tests:
 ```bash
 npm run test:e2e
+```
+---
+## Postman Collection
+To facilitate testing and exploration of the RESTful API, we have provided a Postman Collection. This collection contains predefined requests that you can import into your Postman client.
+
+### How to Import the Postman Collection
+Download the Postman Collection:
+
+1. You can download the collection from the repository directly by clicking the Postman Collection link.
+2. Environment Configuration:
+   The collection uses environment variables such as baseUrl, accessToken, and others.
+To set up the environment:
+Create a new environment in Postman.
+Add the required variables (e.g., baseUrl, accessToken) and their values.
+You can get the accessToken by logging into the system and retrieving it from the login endpoint.
+
+### Available Endpoints in the Postman Collection
+Here is a summary of the key endpoints included in the Postman collection:
+
+1. User Authentication
+- POST /auth/login: Logs in the user and returns an access token.
+- POST /auth/signup: Signing up a new user.
+2. User Account Management
+- POST /user/upgrade: Upgrades the user account to a premium account.
+3. Swipe Operations
+- POST /swipe: Performs a swipe action (like or pass) on another user.
+- GET /swipe?page=1&limit=10: Get the list of swipes per day, the same account already swiped will be shown again.
+
+### Example Request
+Here’s an example of how to use the collection:
+
+Login Request:
+- Endpoint: POST /auth/login
+- Body (JSON):
+```json
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+```
+- Response:
+```json
+{
+  "accessToken": "your-jwt-token"
+}
+
 ```
 ---
 
