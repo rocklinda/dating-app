@@ -114,10 +114,11 @@ Download the Postman Collection:
 1. You can download the collection from the repository directly by clicking the Postman Collection link.
 2. Environment Configuration:
    The collection uses environment variables such as baseUrl, accessToken, and others.
-To set up the environment:
-Create a new environment in Postman.
-Add the required variables (e.g., baseUrl, accessToken) and their values.
-You can get the accessToken by logging into the system and retrieving it from the login endpoint.
+
+### To set up the environment:
+1. Create a new environment in Postman.
+2. Add the required variables (e.g., baseUrl, accessToken) and their values.
+3. You can get the accessToken by logging into the system and retrieving it from the login endpoint.
 
 ### Available Endpoints in the Postman Collection
 Here is a summary of the key endpoints included in the Postman collection:
