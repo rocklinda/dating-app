@@ -1,73 +1,127 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Dating App
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Over View
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+The dating app is a mini project that allows users to swipe based on tier. It supports features like user authentication, swipe activities, daily swipe limits, and match creation. This service is built using [technologies used, e.g., NestJS, TypeORM, JWT].
 
-## Description
+## Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- User authentication with JWT
+- Swipes with daily limits for free users and unlimited for premium users
+- Store user swipe activities and create matches
+- Ability for users to upgrade to premium accounts
+
+## Technologies Used
+
+- **NestJS** - Framework for building the service
+- **TypeORM** - ORM for interacting with the database
+- **JWT** - Authentication mechanism
+
+## Service Structure
+The project is divided into the following modules:
+
+1. Auth Module
+Handles user authentication using JWT.
+
+2. User Module
+Manages user data and account upgrades (standard to premium).
+
+3. Swipe Module
+Handles user swipe activities (like/pass) and daily swipe limits.
+
+4. Match Module
+Handles the logic of creating a match when two users swipe right on each other.
+
+---
 
 ## Installation
 
+### Prerequisites
+
+Before setting up the project, ensure you have the following installed:
+
+- **Node.js**: [Download Node.js](https://nodejs.org/)
+- **npm**: Comes with Node.js, but you can install it separately if needed.
+- **[Other dependencies]**
+
+### Steps to Install
+
+1. Clone the repository:
+
+    ```bash
+    git clone git@github.com:rocklinda/dating-app.git
+    cd dating-app
+    ```
+
+2. Install the required dependencies:
+
+    ```bash
+    npm install
+    ```
+
+3. Set up environment variables (create a `.env` file from .env.example file):
+
+    Example `.env`:
+
+    ```bash
+    APP_NAME=DATING-APPS
+    BASE_URL=your_base_url
+    PORT=your_port
+    DB_DATABASE=your_db_name
+    DB_HOST=your_host
+    DB_PASSWORD=your_db_password
+    DB_PORT=your_db_port
+    DB_USERNAME=myio
+    JWT_SECRET=your_jwt_secret
+    NODE_ENV=your_node_environment
+    ```
+
+---
+
+## Running the Service
+
+You can run the service once you've installed the dependencies and set up the environment variables.
+
+### Development Mode
+
+To run the application in development mode:
+
 ```bash
-$ npm install
+npm run start:dev
+```
+This will start the server on the port that you set in env, for example, `http://localhost:3000`
+
+## Testing
+
+### Running Unit Tests
+To run the unit tests for the project:
+```bash
+npm run test
 ```
 
-## Running the app
-
+### Running End-to-End Tests
+To run the end-to-end tests:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run test:e2e
 ```
+---
 
-## Test
+## Linting and Formatting
+This project uses ESLint and Prettier for code linting and formatting. The settings are configured to ensure consistent code style and automatically fix issues on save.
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+### VS Code Settings
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint", "source.organizeImports"],
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "prettier.printWidth": 120
+}
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+When you save a file, these settings automatically format code and fix linting issues.
 
 ## License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-Nest is [MIT licensed](LICENSE).
